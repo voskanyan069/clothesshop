@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".admin.AdminMessengerActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_menu"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/header_layout"
+            android:paddingBottom="20sp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:layout_marginLeft="30sp"
+                android:fontFamily="@font/fredoka_one"
+                android:textSize="50sp"
+                android:text="@string/messenger"
+                android:textColor="@color/colorHeaderText"
+                android:layout_marginStart="30sp" />
+
+            <EditText
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="45sp"
+                android:maxLines="1"
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginTop="10sp"
+                android:background="@drawable/search_bar_layout"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="2sp"
+                android:drawableTint="#606367"
+                android:textColorHint="#606367"
+                android:textColor="#762DBF"
+                android:textStyle="bold"
+                android:hint="@string/search"
+                android:padding="10sp"
+                android:drawableStart="@drawable/ic_search"
+                android:textSize="20sp"
+                tools:ignore="UnusedAttribute"
+                android:inputType="text"
+                android:importantForAutofill="yes"
+                android:autofillHints="Search" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_of_chats"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10sp"
+            tools:listitem="@layout/chats_list_item" />
+
+    </LinearLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_loading_messenger"
+        android:layout_width="150sp"
+        android:layout_height="150sp"
+        app:lottie_url="https://assets3.lottiefiles.com/packages/lf20_Stt1R6.json"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible" />
+
+    <include
+        android:id="@+id/bottom_menu"
+        layout="@layout/admin_bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

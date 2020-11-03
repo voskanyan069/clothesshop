@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".admin.ShopLoginActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/shop_login_image"
+                android:layout_width="match_parent"
+                android:layout_height="300sp"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/shop_registration_image"
+                />
+
+            <EditText
+                android:id="@+id/shop_login_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/shop_login_image"
+                android:layout_marginTop="20sp"
+                android:layout_marginLeft="50sp"
+                android:layout_marginRight="50sp"
+                android:padding="10sp"
+                android:background="@drawable/email_layout"
+                android:inputType="textEmailAddress"
+                android:hint="@string/email_hint"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlue"
+                />
+
+            <EditText
+                android:id="@+id/shop_login_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/shop_login_email"
+                android:layout_marginTop="10sp"
+                android:layout_marginLeft="50sp"
+                android:layout_marginRight="50sp"
+                android:padding="10sp"
+                android:background="@drawable/login_password_layout"
+                android:inputType="textPassword"
+                android:hint="@string/password"
+                android:textStyle="bold"
+                android:textColor="@color/colorPink"
+                />
+
+            <Button
+                android:id="@+id/shop_login_login_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15sp"
+                android:layout_marginLeft="70sp"
+                android:layout_marginRight="70sp"
+                android:layout_below="@id/shop_login_password"
+                android:padding="10sp"
+                android:background="@drawable/button_layout"
+                android:text="@string/login"
+                android:fontFamily="@font/fredoka_one"
+                android:textSize="25sp"
+                android:textColor="@color/colorWhite"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/shop_login_login_button"
+                android:layout_marginTop="10sp"
+                android:layout_marginBottom="10sp"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/register_new_shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="@string/register_new_shop"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPink"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:gravity="center"
+                    android:textStyle="normal"
+                    android:text="or"
+                    />
+
+                <TextView
+                    android:id="@+id/login_user_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="@string/login_user_account"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPink"
+                    />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

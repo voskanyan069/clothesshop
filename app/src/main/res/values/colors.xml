@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <color name="colorPrimary">#A68BD6</color>-->
+<!--    <color name="colorPrimaryDark">#A68BD6</color>-->
+    <color name="colorPrimary">#8400E1</color>
+    <color name="colorPrimaryDark">#8400E1</color>
+    <color name="colorAccent">#F06292</color>
+
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorPink">#f677ba</color>
+    <color name="colorPurple">#816fc1</color>
+    <color name="colorPurpleLight">#c4a2fc</color>
+    <color name="colorBlue">#2e7efb</color>
+    <color name="colorOrange">#f7471e</color>
+
+    <color name="colorBackground">#FDF1F1</color>
+
+    <color name="colorHeader">#8400E1</color>
+    <color name="colorHeaderText">#FEFDFF</color>
+    <color name="colorSearchBar">#B287EC</color>
+    <color name="colorBottomMenu">#DFD6EF</color>
+    <color name="colorPositiveButton">#C8E6C9</color>
+    <color name="colorNegativeButton">#F8BBD0</color>
+    <color name="colorToolbarTitle">#14181E</color>
+</resources>

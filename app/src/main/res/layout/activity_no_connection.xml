@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".global.NoConnectionActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/no_connection_image"
+                android:layout_width="match_parent"
+                android:layout_height="400sp"
+                android:src="@drawable/people_with_connection_plug"
+                />
+
+            <TextView
+                android:id="@+id/no_connection_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/no_connection_image"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:fontFamily="@font/fredoka_one"
+                android:text="@string/no_internet_connection"
+                />
+
+            <TextView
+                android:id="@+id/no_connection_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/no_connection_title"
+                android:layout_marginTop="5sp"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="@string/no_connection"
+                />
+
+            <Button
+                android:id="@+id/try_again_to_connect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/no_connection_text"
+                android:layout_marginTop="20sp"
+                android:layout_marginLeft="60sp"
+                android:layout_marginRight="60sp"
+                android:background="@drawable/no_connection_button_layout"
+                android:fontFamily="@font/fredoka_one"
+                android:textSize="20sp"
+                android:textColor="#ff725e"
+                android:text="Try again"
+                />
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

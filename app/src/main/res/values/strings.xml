@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">ClothesShop</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">Login</string>
+    <string name="need_new_account">Need new Account ?</string>
+    <string name="already_have_an_account">Already have an Account ?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="favorite_products">Favorite Products</string>
+    <string name="following_stores">Following Stores</string>
+    <string name="this_shop_products">This Shop Products</string>
+    <string name="min_price">Min price</string>
+    <string name="max_price">Max price</string>
+    <string name="size">Size</string>
+    <string name="search">Search</string>
+    <string name="clothes">Clothes</string>
+    <string name="stores">Stores</string>
+    <string name="set_price">Set Price</string>
+    <string name="cancel">Cancel</string>
+    <string name="account_action">Account action</string>
+    <string name="price_form">Price Form</string>
+    <string name="log_out">Log Out</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="display_name">Display name</string>
+    <string name="password">Password</string>
+    <string name="register_new_shop">Register new Shop</string>
+    <string name="login_user_account">Login User Account</string>
+    <string name="login_shop_account">Login Shop Account</string>
+    <string name="mail">E-Mail</string>
+    <string name="shop_name">Shop Name</string>
+    <string name="shop_description">Shop Description</string>
+    <string name="already_have_a_shop_account">Already have a Shop Account</string>
+    <string name="no_connection">Slow or no internet connection.\nPlease check your internet settings.</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="your_shop_clothes">Your Shop Clothes</string>
+    <string name="messenger">Messenger</string>
+</resources>

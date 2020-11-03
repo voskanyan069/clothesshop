@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "545660445581",
+    "firebase_url": "https://clothesshop-1aa1e.firebaseio.com",
+    "project_id": "clothesshop-1aa1e",
+    "storage_bucket": "clothesshop-1aa1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545660445581:android:12339e68a1bc8fa7b893c4",
+        "android_client_info": {
+          "package_name": "am.clothesshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545660445581-9hh576prpo2n1u7icmv1m9ocu156u002.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "am.clothesshop",
+            "certificate_hash": "d98228b13e383b6801d19b38f9a7f80ca6f2a135"
+          }
+        },
+        {
+          "client_id": "545660445581-f126baa4qmq8i2gcbki7c0iv8scc6c8q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPzNS2qY85QrtcVxsaEcVsf9TPZ4ZYdpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545660445581-f126baa4qmq8i2gcbki7c0iv8scc6c8q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

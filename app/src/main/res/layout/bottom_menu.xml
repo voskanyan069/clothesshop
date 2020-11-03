@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70sp"
+    android:orientation="horizontal"
+    android:background="@drawable/bottom_menu_drawable"
+    android:weightSum="5">
+
+    <ImageView
+        android:id="@+id/menu_products"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10sp"
+        android:layout_weight="1"
+        android:src="@drawable/clothes" />
+
+    <ImageView
+        android:id="@+id/menu_stores"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10sp"
+        android:layout_weight="1"
+        android:src="@drawable/stores" />
+
+    <ImageView
+        android:id="@+id/menu_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10sp"
+        android:layout_weight="1"
+        android:src="@drawable/notifications" />
+
+    <ImageView
+        android:id="@+id/menu_messenger"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10sp"
+        android:layout_weight="1"
+        android:src="@drawable/messenger" />
+
+    <ImageView
+        android:id="@+id/menu_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10sp"
+        android:layout_weight="1"
+        android:src="@drawable/account" />
+
+</LinearLayout>
