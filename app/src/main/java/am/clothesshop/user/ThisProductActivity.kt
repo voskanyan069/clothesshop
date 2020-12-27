@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
@@ -32,16 +33,31 @@ class ThisProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_this_product)
 
-        checkConnection()
-        onBack()
-
         val thisProductKey = intent.getStringExtra("visitProductKey")
+        val thisProductName = intent.getStringExtra("visitProductName")
+
+        checkConnection()
+        toolbarInit(thisProductName.toString())
+
         thisProductRef = clothesRef.child(thisProductKey.toString())
 
         if (thisProductKey != null) {
             getProductInfo(thisProductKey)
             like(thisProductKey)
         }
+    }
+
+    private fun toolbarInit(thisProductName: String) {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.title = thisProductName
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 
     private fun getProductInfo(thisProductKey: String) {
@@ -65,16 +81,16 @@ class ThisProductActivity : AppCompatActivity() {
                 val productAddress = dataSnapshot.child("Clothes").child(thisProductKey).child("address").value.toString()
                 val productType = dataSnapshot.child("Clothes").child(thisProductKey).child("type").value.toString()
 
-                thisProductMap.put("name", productName)
-                thisProductMap.put("description", productDescription)
-                thisProductMap.put("price", productPrice)
-                thisProductMap.put("size", productSize)
-                thisProductMap.put("image", productImage)
-                thisProductMap.put("store", productStore)
-                thisProductMap.put("address", productAddress)
-                thisProductMap.put("type", productType)
+                thisProductMap["name"] = productName
+                thisProductMap["description"] = productDescription
+                thisProductMap["price"] = productPrice
+                thisProductMap["size"] = productSize
+                thisProductMap["image"] = productImage
+                thisProductMap["store"] = productStore
+                thisProductMap["address"] = productAddress
+                thisProductMap["type"] = productType
 
-                this_product_name.text = productName
+//                this_product_name.text = productName
                 this_product_description.text = productDescription
                 this_product_price_size.text = "$productPrice | $productSize"
                 this_product_type.text = productType
@@ -90,8 +106,8 @@ class ThisProductActivity : AppCompatActivity() {
             checkConnection()
 
             if (liked) {
-                currentUserFavoritesRef.child(thisProductKey).removeValue()
                 liked = false
+                currentUserFavoritesRef.child(thisProductKey).removeValue()
                 Picasso.get().load(R.drawable.like_border).into(this_product_like)
             } else {
                 lottie_like_this_product.visibility = View.VISIBLE
@@ -102,17 +118,11 @@ class ThisProductActivity : AppCompatActivity() {
                     lottie_like_this_product.visibility = View.INVISIBLE
                 }, lottie_like_this_product.duration)
 
+                liked = true
                 currentUserFavoritesRef.child(thisProductKey).setValue(thisProductMap)
                 currentUserFavoritesRef.child(thisProductKey).child("liked").setValue("true")
-                liked = true
                 Picasso.get().load(R.drawable.like_fill).into(this_product_like)
             }
-        }
-    }
-
-    private fun onBack() {
-        this_product_back.setOnClickListener {
-            finish()
         }
     }
 

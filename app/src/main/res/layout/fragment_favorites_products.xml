@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,17 +7,17 @@
     android:background="@color/colorBackground">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_of_products"
+        android:id="@+id/list_of_favorite_products"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/products_list_item"
         />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottie_loading_product"
-        android:layout_width="150sp"
-        android:layout_height="150sp"
-        app:lottie_url="https://assets3.lottiefiles.com/packages/lf20_Stt1R6.json"
+        android:id="@+id/lottie_loading_favorite"
+        android:layout_width="200sp"
+        android:layout_height="200sp"
+        app:lottie_url="https://assets6.lottiefiles.com/datafiles/8I4VBobfLT0ZhRnzi3ZZl61uKHJ6yUtXkb7aKe4Z/bag.json"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="invisible"

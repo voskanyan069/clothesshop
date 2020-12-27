@@ -3,17 +3,18 @@ package am.clothesshop.user
 import am.clothesshop.global.CheckConnection
 import am.clothesshop.global.NoConnectionActivity
 import am.clothesshop.R
+import am.clothesshop.messenger.ThisChatActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_this_store.*
-import kotlinx.android.synthetic.main.bottom_menu.*
 
 class ThisStoreActivity : AppCompatActivity() {
 
@@ -34,16 +35,31 @@ class ThisStoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_this_store)
 
-        onBack()
+        val thisStoreKey = intent.getStringExtra("visitStoreKey")
+        val thisStoreName = intent.getStringExtra("visitStoreName")
+        toolbarInit(thisStoreName!!)
         checkConnection()
 
-        val thisStoreKey = intent.getStringExtra("visitStoreKey")
         thisStoreRef = storesRef.child(thisStoreKey.toString())
 
         if (thisStoreKey != null) {
             getStoreInfo(thisStoreKey)
+            toThisChatMessenger(thisStoreKey, thisStoreName)
             follow(thisStoreKey)
         }
+    }
+
+    private fun toolbarInit(thisStoreName: String) {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.title = thisStoreName
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 
     private fun checkConnection() {
@@ -91,13 +107,25 @@ class ThisStoreActivity : AppCompatActivity() {
         root.reference.addValueEventListener(storeListener)
     }
 
+    private fun toThisChatMessenger(thisStoreKey: String, thisStoreName: String) {
+        this_store_send_message.setOnClickListener {
+            checkConnection()
+
+            val intent = Intent(this, ThisChatActivity::class.java)
+            intent.putExtra("visitChatKey", thisStoreKey)
+            intent.putExtra("visitChatName", thisStoreName)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        }
+    }
+
     private fun follow(thisStoreKey: String) {
         this_store_follow.setOnClickListener {
             checkConnection()
 
             if (liked) {
-                currentUserFavoritesRef.child(thisStoreKey).removeValue()
                 liked = false
+                currentUserFavoritesRef.child(thisStoreKey).removeValue()
                 Picasso.get().load(R.drawable.like_border).into(this_store_follow)
                 followers = followers?.minus(1)
                 this_store_followers.text = followers.toString()
@@ -110,8 +138,6 @@ class ThisStoreActivity : AppCompatActivity() {
                     lottie_like_this_store.cancelAnimation()
                     lottie_like_this_store.visibility = View.INVISIBLE
                 }, lottie_like_this_store.duration)
-
-                val followedUser = HashMap<String, String>()
 
                 currentUserFavoritesRef.child(thisStoreKey).setValue(thisStoreMap)
                 currentUserFavoritesRef.child(thisStoreKey).child("liked").setValue("true")
@@ -129,12 +155,6 @@ class ThisStoreActivity : AppCompatActivity() {
                 Toast.makeText(this, "You start following this store", Toast.LENGTH_SHORT).show()
             }
             thisStoreRef?.child("followers")?.setValue(followers.toString())
-        }
-    }
-
-    private fun onBack() {
-        this_store_back.setOnClickListener {
-            finish()
         }
     }
 

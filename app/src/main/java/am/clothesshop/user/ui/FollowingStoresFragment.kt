@@ -20,40 +20,45 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_stores.*
+import kotlinx.android.synthetic.main.activity_following_stores.*
+import java.lang.IndexOutOfBoundsException
 
-class StoresFragment : Fragment() {
+class FollowingStoresFragment : Fragment() {
+
+    private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val databaseRoot: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val storesRef: DatabaseReference = databaseRoot.reference.child("Stores")
+    private val usersRef: DatabaseReference = databaseRoot.reference.child("Users")
+    private val currentUserRef: DatabaseReference = usersRef.child(mAuth.currentUser?.uid.toString())
+    private val currentUserFollowingRef: DatabaseReference = currentUserRef.child("Following Stores")
 
     private var lottieAnimationView: LottieAnimationView? = null
-    private var listOfStores: RecyclerView? = null
+    private var listOfFollowingStores: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root: View = inflater.inflate(R.layout.fragment_stores, container, false)
+        val root: View = inflater.inflate(R.layout.fragment_following_stores, container, false)
         init(root)
         checkConnection()
-        displayStores(storesRef)
+        displayFollowingStores(currentUserFollowingRef)
 
         return root
     }
 
     private fun init(root: View) {
-        lottieAnimationView = root.findViewById(R.id.lottie_loading_stores)
-        listOfStores = root.findViewById(R.id.list_of_stores)
+        lottieAnimationView = root.findViewById(R.id.lottie_loading_following)
+        listOfFollowingStores = root.findViewById(R.id.list_of_following_stores)
 
         lottieAnimationView?.visibility = View.VISIBLE
         lottieAnimationView?.playAnimation()
         lottieAnimationView?.loop(true)
     }
 
-    private fun displayStores(query: DatabaseReference) {
-        listOfStores?.layoutManager = LinearLayoutManager(this.context)
+    private fun displayFollowingStores(query: DatabaseReference) {
+        listOfFollowingStores?.layoutManager = LinearLayoutManager(this.context)
 
         val options: FirebaseRecyclerOptions<Stores?> = FirebaseRecyclerOptions.Builder<Stores>()
             .setQuery(query, Stores::class.java)
@@ -68,23 +73,32 @@ class StoresFragment : Fragment() {
                     position: Int,
                     model: Stores
                 ) {
+
                     holder.storeName.text = model.getName()
                     holder.storeAddress.text = model.getAddress()
+
+                    holder.itemView.setOnClickListener {
+                        try {
+                            val visitStoreKey = getRef(position).key
+
+                            val intent = Intent(
+                                this@FollowingStoresFragment.context,
+                                ThisStoreActivity::class.java
+                            )
+                            intent.putExtra("visitStoreKey", visitStoreKey)
+                            intent.putExtra("visitStoreName", model.getName())
+                            startActivity(intent)
+                            activity?.overridePendingTransition(
+                                R.anim.slide_in_right,
+                                R.anim.slide_out_left
+                            )
+                        } catch (ignored: IndexOutOfBoundsException) {}
+                    }
 
                     lottieAnimationView?.visibility = View.INVISIBLE
                     lottieAnimationView?.loop(false)
                     lottieAnimationView?.pauseAnimation()
                     lottieAnimationView?.cancelAnimation()
-
-                    holder.itemView.setOnClickListener {
-                        val visitStoreKey = getRef(position).key
-
-                        val intent = Intent(this@StoresFragment.context, ThisStoreActivity::class.java)
-                        intent.putExtra("visitStoreKey", visitStoreKey)
-                        intent.putExtra("visitStoreName", model.getName())
-                        startActivity(intent)
-                        activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                    }
                 }
 
                 override fun onCreateViewHolder(
@@ -97,7 +111,7 @@ class StoresFragment : Fragment() {
                 }
             }
 
-        listOfStores?.adapter = adapter
+        listOfFollowingStores?.adapter = adapter
         adapter.startListening()
     }
 

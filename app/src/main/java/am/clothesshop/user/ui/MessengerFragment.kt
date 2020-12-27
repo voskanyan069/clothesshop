@@ -20,7 +20,6 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_messenger.*
 
 class MessengerFragment : Fragment() {
 
@@ -28,7 +27,7 @@ class MessengerFragment : Fragment() {
 
     private val databaseRoot: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val messengerRef = databaseRoot.reference.child("Messenger")
-    private var currentUserChatsRef: DatabaseReference? = null
+    private var currentUserChatsRef: DatabaseReference = messengerRef.child(mAuth.currentUser!!.uid)
 
     private var lottieAnimationView: LottieAnimationView? = null
     private var listOfChats: RecyclerView? = null
@@ -41,7 +40,7 @@ class MessengerFragment : Fragment() {
         val root: View = inflater.inflate(R.layout.fragment_messenger, container, false)
         init(root)
         checkConnection()
-        displayChats(currentUserChatsRef!!)
+        displayChats(currentUserChatsRef)
 
         return root
     }
@@ -50,10 +49,6 @@ class MessengerFragment : Fragment() {
         lottieAnimationView = root.findViewById(R.id.lottie_loading_messenger)
         listOfChats = root.findViewById(R.id.list_of_chats)
 
-        if (mAuth.currentUser != null) {
-            currentUserChatsRef = messengerRef.child(mAuth.currentUser!!.uid)
-        }
-
         lottieAnimationView?.visibility = View.VISIBLE
         lottieAnimationView?.playAnimation()
         lottieAnimationView?.loop(true)
@@ -61,72 +56,54 @@ class MessengerFragment : Fragment() {
 
     private fun displayChats(query: DatabaseReference) {
         listOfChats?.layoutManager = LinearLayoutManager(this.context)
-        var isExist: Boolean = false
 
-        val existListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    isExist = true
-                } else {
+        val options: FirebaseRecyclerOptions<Chats> = FirebaseRecyclerOptions.Builder<Chats>()
+            .setQuery(query, Chats::class.java)
+            .build()
+
+        val adapter: FirebaseRecyclerAdapter<Chats, MessengerViewHolder> =
+            object :
+                FirebaseRecyclerAdapter<Chats, MessengerViewHolder>(options) {
+
+                override fun onBindViewHolder(
+                    holder: MessengerViewHolder,
+                    position: Int,
+                    model: Chats
+                ) {
+
+                    holder.chatName.text = model.getUsername()
+                    if (model.getProfileImage() != "null") {
+                        Picasso.get().load(model.getProfileImage()).into(holder.chatImage)
+                    }
+
                     lottieAnimationView?.visibility = View.INVISIBLE
                     lottieAnimationView?.loop(false)
                     lottieAnimationView?.pauseAnimation()
                     lottieAnimationView?.cancelAnimation()
+
+                    holder.itemView.setOnClickListener {
+                        val visitChatKey = getRef(position).key
+
+                        val intent = Intent(this@MessengerFragment.context, ThisChatActivity::class.java)
+                        intent.putExtra("visitChatKey", visitChatKey)
+                        intent.putExtra("visitChatName", model.getUsername())
+                        startActivity(intent)
+                        activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    }
+                }
+
+                override fun onCreateViewHolder(
+                    parent: ViewGroup,
+                    viewType: Int
+                ): MessengerViewHolder {
+                    val view: View = LayoutInflater.from(parent.context)
+                        .inflate(R.layout.chats_list_item, parent, false)
+                    return MessengerViewHolder(view)
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {}
-        }
-        query.addValueEventListener(existListener)
-
-        if (isExist) {
-            val options: FirebaseRecyclerOptions<Chats?> = FirebaseRecyclerOptions.Builder<Chats>()
-                .setQuery(query, Chats::class.java)
-                .build()
-
-            val adapter: FirebaseRecyclerAdapter<Chats?, MessengerViewHolder> =
-                object :
-                    FirebaseRecyclerAdapter<Chats?, MessengerViewHolder>(options) {
-
-                    override fun onBindViewHolder(
-                        holder: MessengerViewHolder,
-                        position: Int,
-                        model: Chats
-                    ) {
-
-                        holder.chatName.text = model.getUsername()
-                        if (model.getProfileImage() != "null") {
-                            Picasso.get().load(model.getProfileImage()).into(holder.chatImage)
-                        }
-
-                        lottieAnimationView?.visibility = View.INVISIBLE
-                        lottieAnimationView?.loop(false)
-                        lottieAnimationView?.pauseAnimation()
-                        lottieAnimationView?.cancelAnimation()
-
-                        holder.itemView.setOnClickListener {
-                            val visitChatKey = getRef(position).key
-
-                            val intent = Intent(this@MessengerFragment.context, ThisChatActivity::class.java)
-                            intent.putExtra("visitChatKey", visitChatKey)
-                            startActivity(intent)
-                            activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                        }
-                    }
-
-                    override fun onCreateViewHolder(
-                        parent: ViewGroup,
-                        viewType: Int
-                    ): MessengerViewHolder {
-                        val view: View = LayoutInflater.from(parent.context)
-                            .inflate(R.layout.chats_list_item, parent, false)
-                        return MessengerViewHolder(view)
-                    }
-                }
-
-            listOfChats?.adapter = adapter
-            adapter.startListening()
-        }
+        listOfChats?.adapter = adapter
+        adapter.startListening()
     }
 
     private fun checkConnection() {

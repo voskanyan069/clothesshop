@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="am.clothesshop">
 
@@ -18,10 +19,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".user.DrawerActivity"
-            android:label="@string/title_activity_drawer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".admin.AdminNotificationsActivity" />
         <activity android:name=".user.NotificationsActivity" />
         <activity android:name=".admin.AdminMessengerActivity" />
@@ -43,9 +40,11 @@
         <activity android:name=".user.LoginActivity" />
         <activity android:name=".user.RegistrationActivity" />
         <activity android:name=".user.FavoriteProductsActivity" />
-        <activity android:name=".user.SearchActivity" />
         <activity android:name=".user.StoresActivity" />
-        <activity android:name=".user.ProductsActivity">
+        <activity android:name=".user.ProductsActivity" />
+        <activity
+            android:name=".user.DrawerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,5 +52,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

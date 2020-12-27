@@ -8,21 +8,38 @@
     android:background="@color/colorBackground"
     tools:context=".user.ThisProductActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/this_product_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/this_product_top_bar">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/this_product_back"
-                android:layout_width="35sp"
+                android:id="@+id/this_product_like"
+                android:layout_width="40sp"
                 android:layout_height="40sp"
-                android:layout_alignParentLeft="true"
-                android:src="@drawable/ic_arrow_back"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
                 android:layout_margin="10sp"
+                android:src="@drawable/like_border"
                 />
 
             <ImageView
@@ -36,6 +53,7 @@
                 android:src="@drawable/clothes"
                 />
 
+            <!--
             <RelativeLayout
                 android:id="@+id/this_product_name_like"
                 android:layout_width="match_parent"
@@ -70,12 +88,13 @@
                     />
 
             </RelativeLayout>
+            -->
 
             <TextView
                 android:id="@+id/this_product_price_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/this_product_name_like"
+                android:layout_below="@id/this_product_image"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textSize="15sp"

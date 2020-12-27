@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,48 +20,45 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_products.*
+import kotlinx.android.synthetic.main.activity_favorite_products.*
 
+class FavoritesProductsFragment : Fragment() {
 
-class ProductsFragment : Fragment() {
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val databaseRoot: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val usersRef: DatabaseReference = databaseRoot.reference.child("Users")
-    private val clothesRef: DatabaseReference = databaseRoot.reference.child("Clothes")
-    private var currentUserRef: DatabaseReference = usersRef.child(mAuth.currentUser?.uid.toString())
-    private var currentUserFavoritesRef: DatabaseReference = currentUserRef.child("Favorite Products")
+    private val currentUserRef: DatabaseReference = usersRef.child(mAuth.currentUser?.uid.toString())
+    private val currentUserFavoritesRef: DatabaseReference = currentUserRef.child("Favorite Products")
 
     private var lottieAnimationView: LottieAnimationView? = null
-    private var listOfProducts: RecyclerView? = null
-
-    private var liked = false
+    private var listOfFavoriteProducts: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root: View = inflater.inflate(R.layout.fragment_products, container, false)
+        val root: View = inflater.inflate(R.layout.fragment_favorites_products, container, false)
         init(root)
         checkConnection()
-        displayClothes(clothesRef)
+        displayFavoriteClothes(currentUserFavoritesRef)
 
         return root
     }
 
     private fun init(root: View) {
-        lottieAnimationView = root.findViewById(R.id.lottie_loading_product)
-        listOfProducts = root.findViewById(R.id.list_of_products)
+        lottieAnimationView = root.findViewById(R.id.lottie_loading_favorite)
+        listOfFavoriteProducts = root.findViewById(R.id.list_of_favorite_products)
 
         lottieAnimationView?.visibility = View.VISIBLE
-        lottieAnimationView?.loop(true)
         lottieAnimationView?.playAnimation()
+        lottieAnimationView?.loop(true)
     }
 
-    private fun displayClothes(query: DatabaseReference) {
+    private fun displayFavoriteClothes(query: DatabaseReference) {
         val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(this.context, 2)
-        listOfProducts?.layoutManager = layoutManager
+        listOfFavoriteProducts?.layoutManager = layoutManager
 
         val options: FirebaseRecyclerOptions<Clothes?> = FirebaseRecyclerOptions.Builder<Clothes>()
             .setQuery(query, Clothes::class.java)
@@ -77,7 +73,6 @@ class ProductsFragment : Fragment() {
                     position: Int,
                     model: Clothes
                 ) {
-
                     holder.productName.text = model.getName()
                     holder.productDescription.text = model.getDescription()
                     holder.productPrice.text = model.getPrice()
@@ -86,8 +81,7 @@ class ProductsFragment : Fragment() {
                     val likeListener = object: ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             try {
-                                if (snapshot.hasChild(getRef(position).key.toString())) {
-                                    liked = true
+                                if (snapshot.exists() && snapshot.hasChild(getRef(position).key!!)) {
                                     Picasso.get().load(R.drawable.like_fill)
                                         .into(holder.productLikeImage)
                                 } else {
@@ -98,10 +92,9 @@ class ProductsFragment : Fragment() {
                                 Picasso.get().load(R.drawable.like_border).into(holder.productLikeImage)
                             }
                         }
-
                         override fun onCancelled(error: DatabaseError) {}
                     }
-                    currentUserFavoritesRef.addValueEventListener(likeListener)
+                    query.addValueEventListener(likeListener)
 
                     lottieAnimationView?.visibility = View.INVISIBLE
                     lottieAnimationView?.loop(false)
@@ -109,16 +102,21 @@ class ProductsFragment : Fragment() {
                     lottieAnimationView?.cancelAnimation()
 
                     holder.itemView.setOnClickListener {
-                        val visitProductKey = getRef(position).key
+                        try {
+                            val visitProductKey = getRef(position).key
 
-                        val intent = Intent(
-                            this@ProductsFragment.context,
-                            ThisProductActivity::class.java
-                        )
-                        intent.putExtra("visitProductKey", visitProductKey)
-                        intent.putExtra("visitProductName", model.getName())
-                        startActivity(intent)
-                        activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                            val intent = Intent(
+                                this@FavoritesProductsFragment.context,
+                                ThisProductActivity::class.java
+                            )
+                            intent.putExtra("visitProductKey", visitProductKey)
+                            intent.putExtra("visitProductName", model.getName())
+                            startActivity(intent)
+                            activity?.overridePendingTransition(
+                                R.anim.slide_in_right,
+                                R.anim.slide_out_left
+                            )
+                        } catch (ignored: IndexOutOfBoundsException) {}
                     }
                 }
 
@@ -132,7 +130,7 @@ class ProductsFragment : Fragment() {
                 }
             }
 
-        listOfProducts?.adapter = adapter
+        listOfFavoriteProducts?.adapter = adapter
         adapter.startListening()
     }
 

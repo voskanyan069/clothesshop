@@ -53,7 +53,6 @@ class FavoriteProductsActivity : AppCompatActivity() {
     }
 
     private fun displayFavoriteClothes() {
-
         favorite_stores.setOnClickListener {
             startActivity(Intent(this@FavoriteProductsActivity, FollowingStoresActivity::class.java))
         }

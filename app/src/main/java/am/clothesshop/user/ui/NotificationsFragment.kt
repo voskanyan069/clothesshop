@@ -12,7 +12,9 @@ class NotificationsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_notifications, container, false)
+    ): View {
+        val root: View = inflater.inflate(R.layout.fragment_notifications, container, false)
+
+        return root
     }
 }

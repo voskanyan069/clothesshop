@@ -50,4 +50,6 @@
     <string name="menu_notifications">Notifications</string>
     <string name="menu_messages">Messages</string>
     <string name="menu_favorites">Favorites</string>
+    <string name="menu_following">Following</string>
+    <string name="menu_recommendations">Recommendations</string>
 </resources>

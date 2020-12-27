@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_stores" />
 
     <fragment
+        android:id="@+id/nav_recommendations"
+        android:name="am.clothesshop.user.ui.RecommendationsFragment"
+        android:label="@string/menu_recommendations"
+        tools:layout="@layout/fragment_recommendations" />
+
+    <fragment
         android:id="@+id/nav_notifications"
         android:name="am.clothesshop.user.ui.NotificationsFragment"
         android:label="@string/menu_notifications"
@@ -31,7 +37,14 @@
 
     <fragment
         android:id="@+id/nav_favorites"
-        android:name="am.clothesshop.user.ui.FavoritesFragment"
+        android:name="am.clothesshop.user.ui.FavoritesProductsFragment"
         android:label="@string/menu_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites_products" />
+
+    <fragment
+        android:id="@+id/nav_following"
+        android:name="am.clothesshop.user.ui.FollowingStoresFragment"
+        android:label="@string/menu_following"
+        tools:layout="@layout/fragment_following_stores" />
+
 </navigation>

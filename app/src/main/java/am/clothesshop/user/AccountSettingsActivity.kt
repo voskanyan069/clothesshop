@@ -3,6 +3,7 @@ package am.clothesshop.user
 import am.clothesshop.R
 import am.clothesshop.global.CheckConnection
 import am.clothesshop.global.NoConnectionActivity
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -38,15 +39,12 @@ class AccountSettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_settings)
 
-        account_settings_back_button.setOnClickListener {
-            backToSettings()
-        }
-
         checkConnection()
         pickImage()
         accountActionDialog()
         setProfile()
         saveProfile()
+        onBack()
     }
 
     private fun pickImage() {
@@ -79,10 +77,6 @@ class AccountSettingsActivity : AppCompatActivity() {
                 println(e.message)
             }
         }
-    }
-
-    private fun backToSettings() {
-        startActivity(Intent(this, FavoriteProductsActivity::class.java))
     }
 
     private fun setProfile() {
@@ -163,7 +157,7 @@ class AccountSettingsActivity : AppCompatActivity() {
                 ?.updateProfile(userProfileChangeRequest)
                 ?.addOnCompleteListener {
                     when {
-                        it.isSuccessful -> backToSettings()
+                        it.isSuccessful -> finish()
                         it.isCanceled -> Toast.makeText(
                             this,
                             it.exception?.message,
@@ -186,7 +180,7 @@ class AccountSettingsActivity : AppCompatActivity() {
                     when {
                         it.isSuccessful -> {
                             currentUserRef.child("profile_image").setValue(downloadUrl)
-                            backToSettings()
+                            finish()
                         }
                         it.isCanceled -> Toast.makeText(
                             this,
@@ -196,6 +190,17 @@ class AccountSettingsActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    private fun onBack() {
+        account_settings_back_button.setOnClickListener {
+            finish()
+        }
+    }
+
+    override fun finish() {
+        startActivity(Intent(this, DrawerActivity::class.java))
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     private fun checkConnection() {
