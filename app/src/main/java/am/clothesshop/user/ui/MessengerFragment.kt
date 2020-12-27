@@ -1,4 +1,4 @@
-package am.clothesshop.user
+package am.clothesshop.user.ui
 
 import am.clothesshop.R
 import am.clothesshop.global.CheckConnection
@@ -7,51 +7,60 @@ import am.clothesshop.messenger.Chats
 import am.clothesshop.messenger.MessengerViewHolder
 import am.clothesshop.messenger.ThisChatActivity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_messenger.*
-import kotlinx.android.synthetic.main.bottom_menu.*
 
-class MessengerActivity : AppCompatActivity() {
+class MessengerFragment : Fragment() {
 
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    private val root: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val messengerRef = root.reference.child("Messenger")
+    private val databaseRoot: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val messengerRef = databaseRoot.reference.child("Messenger")
     private var currentUserChatsRef: DatabaseReference? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_messenger)
+    private var lottieAnimationView: LottieAnimationView? = null
+    private var listOfChats: RecyclerView? = null
 
-        if (mAuth.currentUser == null) {
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-        } else {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val root: View = inflater.inflate(R.layout.fragment_messenger, container, false)
+        init(root)
+        checkConnection()
+        displayChats(currentUserChatsRef!!)
+
+        return root
+    }
+
+    private fun init(root: View) {
+        lottieAnimationView = root.findViewById(R.id.lottie_loading_messenger)
+        listOfChats = root.findViewById(R.id.list_of_chats)
+
+        if (mAuth.currentUser != null) {
             currentUserChatsRef = messengerRef.child(mAuth.currentUser!!.uid)
         }
 
-        lottie_loading_messenger.visibility = View.VISIBLE
-        lottie_loading_messenger.playAnimation()
-        lottie_loading_messenger.loop(true)
-
-        checkConnection()
-        displayChats(currentUserChatsRef!!)
-        bottomMenu()
+        lottieAnimationView?.visibility = View.VISIBLE
+        lottieAnimationView?.playAnimation()
+        lottieAnimationView?.loop(true)
     }
 
     private fun displayChats(query: DatabaseReference) {
-        list_of_chats.layoutManager = LinearLayoutManager(this)
+        listOfChats?.layoutManager = LinearLayoutManager(this.context)
         var isExist: Boolean = false
 
         val existListener = object : ValueEventListener {
@@ -59,10 +68,10 @@ class MessengerActivity : AppCompatActivity() {
                 if (snapshot.exists()) {
                     isExist = true
                 } else {
-                    lottie_loading_messenger.visibility = View.INVISIBLE
-                    lottie_loading_messenger.loop(false)
-                    lottie_loading_messenger.pauseAnimation()
-                    lottie_loading_messenger.cancelAnimation()
+                    lottieAnimationView?.visibility = View.INVISIBLE
+                    lottieAnimationView?.loop(false)
+                    lottieAnimationView?.pauseAnimation()
+                    lottieAnimationView?.cancelAnimation()
                 }
             }
 
@@ -90,18 +99,18 @@ class MessengerActivity : AppCompatActivity() {
                             Picasso.get().load(model.getProfileImage()).into(holder.chatImage)
                         }
 
-                        lottie_loading_messenger.visibility = View.INVISIBLE
-                        lottie_loading_messenger.loop(false)
-                        lottie_loading_messenger.pauseAnimation()
-                        lottie_loading_messenger.cancelAnimation()
+                        lottieAnimationView?.visibility = View.INVISIBLE
+                        lottieAnimationView?.loop(false)
+                        lottieAnimationView?.pauseAnimation()
+                        lottieAnimationView?.cancelAnimation()
 
                         holder.itemView.setOnClickListener {
                             val visitChatKey = getRef(position).key
 
-                            val intent =
-                                Intent(this@MessengerActivity, ThisChatActivity::class.java)
+                            val intent = Intent(this@MessengerFragment.context, ThisChatActivity::class.java)
                             intent.putExtra("visitChatKey", visitChatKey)
                             startActivity(intent)
+                            activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                         }
                     }
 
@@ -115,32 +124,17 @@ class MessengerActivity : AppCompatActivity() {
                     }
                 }
 
-            list_of_chats.adapter = adapter
+            listOfChats?.adapter = adapter
             adapter.startListening()
         }
     }
 
     private fun checkConnection() {
-        if (!CheckConnection().isNetworkAvailable(this) &&
+        if (!CheckConnection().isNetworkAvailable(this.requireContext()) &&
             !CheckConnection().isInternetAvailable()) {
-            val intent = Intent(this, NoConnectionActivity::class.java)
+            val intent = Intent(this.context, NoConnectionActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-        }
-    }
-
-    private fun bottomMenu() {
-        menu_products.setOnClickListener {
-            startActivity(Intent(this, ProductsActivity::class.java))
-        }
-        menu_stores.setOnClickListener {
-            startActivity(Intent(this, StoresActivity::class.java))
-        }
-        menu_notifications.setOnClickListener {
-            startActivity(Intent(this, NotificationsActivity::class.java))
-        }
-        menu_favorite.setOnClickListener {
-            startActivity(Intent(this, FavoriteProductsActivity::class.java))
         }
     }
 }

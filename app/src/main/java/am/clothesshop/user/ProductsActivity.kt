@@ -46,6 +46,8 @@ class ProductsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_products)
 
+        startActivity(Intent(this, DrawerActivity::class.java))
+
         if (mAuth.currentUser == null) {
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -305,6 +307,7 @@ class ProductsActivity : AppCompatActivity() {
     private fun bottomMenu() {
         menu_stores.setOnClickListener {
             startActivity(Intent(this, StoresActivity::class.java))
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
         menu_notifications.setOnClickListener {
             startActivity(Intent(this, NotificationsActivity::class.java))

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_products">
+
+    <fragment
+        android:id="@+id/nav_products"
+        android:name="am.clothesshop.user.ui.ProductsFragment"
+        android:label="@string/menu_products"
+        tools:layout="@layout/fragment_products" />
+
+    <fragment
+        android:id="@+id/nav_stores"
+        android:name="am.clothesshop.user.ui.StoresFragment"
+        android:label="@string/menu_stores"
+        tools:layout="@layout/fragment_stores" />
+
+    <fragment
+        android:id="@+id/nav_notifications"
+        android:name="am.clothesshop.user.ui.NotificationsFragment"
+        android:label="@string/menu_notifications"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/nav_messenger"
+        android:name="am.clothesshop.user.ui.MessengerFragment"
+        android:label="@string/menu_messages"
+        tools:layout="@layout/fragment_messenger" />
+
+    <fragment
+        android:id="@+id/nav_favorites"
+        android:name="am.clothesshop.user.ui.FavoritesFragment"
+        android:label="@string/menu_favorites"
+        tools:layout="@layout/fragment_favorites" />
+</navigation>

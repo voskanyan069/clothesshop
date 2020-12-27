@@ -17,6 +17,15 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/this_product_back"
+                android:layout_width="35sp"
+                android:layout_height="40sp"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/ic_arrow_back"
+                android:layout_margin="10sp"
+                />
+
+            <ImageView
                 android:id="@+id/this_product_image"
                 android:layout_width="match_parent"
                 android:layout_height="200sp"
@@ -122,14 +131,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="invisible"
-        />
-
-    <include
-        android:id="@+id/bottom_menu"
-        layout="@layout/bottom_menu"
-        android:layout_width="match_parent"
-        android:layout_height="70sp"
-        android:layout_alignParentBottom="true"
         />
 
 </RelativeLayout>

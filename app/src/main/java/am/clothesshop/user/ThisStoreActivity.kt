@@ -34,6 +34,9 @@ class ThisStoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_this_store)
 
+        onBack()
+        checkConnection()
+
         val thisStoreKey = intent.getStringExtra("visitStoreKey")
         thisStoreRef = storesRef.child(thisStoreKey.toString())
 
@@ -41,9 +44,6 @@ class ThisStoreActivity : AppCompatActivity() {
             getStoreInfo(thisStoreKey)
             follow(thisStoreKey)
         }
-
-        checkConnection()
-        bottomMenu()
     }
 
     private fun checkConnection() {
@@ -132,18 +132,14 @@ class ThisStoreActivity : AppCompatActivity() {
         }
     }
 
-    private fun bottomMenu() {
-        menu_products.setOnClickListener {
-            startActivity(Intent(this, ProductsActivity::class.java))
+    private fun onBack() {
+        this_store_back.setOnClickListener {
+            finish()
         }
-        menu_stores.setOnClickListener {
-            startActivity(Intent(this, StoresActivity::class.java))
-        }
-        menu_messenger.setOnClickListener {
-            startActivity(Intent(this, MessengerActivity::class.java))
-        }
-        menu_favorite.setOnClickListener {
-            startActivity(Intent(this, FavoriteProductsActivity::class.java))
-        }
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 }

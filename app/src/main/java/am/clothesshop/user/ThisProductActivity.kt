@@ -32,24 +32,15 @@ class ThisProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_this_product)
 
+        checkConnection()
+        onBack()
+
         val thisProductKey = intent.getStringExtra("visitProductKey")
         thisProductRef = clothesRef.child(thisProductKey.toString())
 
         if (thisProductKey != null) {
             getProductInfo(thisProductKey)
             like(thisProductKey)
-        }
-
-        checkConnection()
-        bottomMenu()
-    }
-
-    private fun checkConnection() {
-        if (!CheckConnection().isNetworkAvailable(this) &&
-            !CheckConnection().isInternetAvailable()) {
-            val intent = Intent(this, NoConnectionActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
         }
     }
 
@@ -119,18 +110,23 @@ class ThisProductActivity : AppCompatActivity() {
         }
     }
 
-    private fun bottomMenu() {
-        menu_products.setOnClickListener {
-            startActivity(Intent(this, ProductsActivity::class.java))
+    private fun onBack() {
+        this_product_back.setOnClickListener {
+            finish()
         }
-        menu_stores.setOnClickListener {
-            startActivity(Intent(this, StoresActivity::class.java))
-        }
-        menu_messenger.setOnClickListener {
-            startActivity(Intent(this, MessengerActivity::class.java))
-        }
-        menu_favorite.setOnClickListener {
-            startActivity(Intent(this, FavoriteProductsActivity::class.java))
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
+    private fun checkConnection() {
+        if (!CheckConnection().isNetworkAvailable(this) &&
+            !CheckConnection().isInternetAvailable()) {
+            val intent = Intent(this, NoConnectionActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
     }
 }

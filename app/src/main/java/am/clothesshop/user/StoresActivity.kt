@@ -186,4 +186,9 @@ class StoresActivity : AppCompatActivity() {
             startActivity(Intent(this, FavoriteProductsActivity::class.java))
         }
     }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
 }

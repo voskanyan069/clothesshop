@@ -58,12 +58,8 @@ class ThisChatActivity : AppCompatActivity() {
         thisChatRef?.addValueEventListener(chatListener)
 
         chat_header_back_button.setOnClickListener {
-            backToChatList()
+            finish()
         }
-    }
-
-    private fun backToChatList() {
-        startActivity(Intent(this, MessengerActivity::class.java))
     }
 
     private fun getMessages() {
@@ -142,6 +138,11 @@ class ThisChatActivity : AppCompatActivity() {
                     }
             }
         }
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     private fun scrollToEnd() {
