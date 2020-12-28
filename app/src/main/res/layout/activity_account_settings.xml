@@ -9,39 +9,41 @@
     android:background="@color/colorBackground"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/account_settings_header"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/account_settings_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <ImageView
-            android:id="@+id/account_settings_back_button"
-            android:layout_width="35sp"
-            android:layout_height="40sp"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_arrow_back"
-            android:layout_margin="10sp" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <ImageView
-            android:id="@+id/account_settings_menu"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/menu"
-            android:layout_margin="10sp" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/account_settings_menu"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_menu"
+        app:tint="@color/colorTextPrimary"
+        android:layout_margin="8sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/account_settings_profile_image"
         android:layout_width="200sp"
         android:layout_height="200sp"
-        android:layout_below="@id/account_settings_header"
+        android:layout_below="@id/account_settings_top_bar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="30sp"
-        app:civ_border_width="1dp"
-        app:civ_border_color="@color/colorBlue"
+        app:civ_border_width="2sp"
+        app:civ_border_color="@color/colorButtonPrimary"
         android:src="@drawable/profile_image_placeholder"
         />
 
@@ -52,13 +54,13 @@
         android:layout_below="@id/account_settings_profile_image"
         android:maxLines="1"
         android:maxLength="30"
-        android:background="@drawable/message_input_layout"
+        android:background="@drawable/input_primary_layout"
         android:layout_marginTop="30sp"
         android:layout_marginHorizontal="40sp"
         android:paddingHorizontal="10sp"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:textColor="@color/colorBlue"
+        android:textColor="@color/colorInputPrimary"
         android:hint="Username"
         />
 
@@ -67,11 +69,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/save_button_layout"
+        android:background="@drawable/button_primary_layout"
         android:layout_marginBottom="50sp"
         android:layout_marginHorizontal="100sp"
         android:text="Save"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorTextPrimary"
         android:textSize="24sp"
         android:fontFamily="@font/fredoka_one"
         android:textAllCaps="false"

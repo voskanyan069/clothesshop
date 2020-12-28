@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
+    <item android:state_enabled="true">
         <shape>
-            <corners android:radius="5sp" />
-            <stroke android:width="3sp" android:color="@color/colorInputPrimary" />
+            <corners android:radius="15sp" />
+            <solid android:color="@color/colorButtonPrimary" />
         </shape>
     </item>
 </selector>
