@@ -2,8 +2,8 @@
     <string name="app_name">Online Shop</string>
 
     <string name="login">Login</string>
-    <string name="need_new_account">Need new Account ?</string>
-    <string name="already_have_an_account">Already have an Account ?</string>
+    <string name="need_new_account">Need new Account?</string>
+    <string name="already_have_an_account">Already have an Account?</string>
     <string name="sign_in">Sign In</string>
     <string name="favorite_products">Favorite Products</string>
     <string name="following_stores">Following Stores</string>

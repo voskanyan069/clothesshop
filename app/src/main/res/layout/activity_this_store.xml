@@ -133,7 +133,7 @@
                 android:layout_marginLeft="60sp"
                 android:layout_marginRight="60sp"
                 android:layout_marginBottom="15sp"
-                android:background="@drawable/button_layout"
+                android:background="@drawable/button_primary_layout"
                 android:fontFamily="@font/fredoka_one"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"

@@ -31,9 +31,7 @@ class ShopRegistrationActivity : AppCompatActivity() {
     private fun checkConnection() {
         if (!CheckConnection().isNetworkAvailable(this) &&
             !CheckConnection().isInternetAvailable()) {
-            val intent = Intent(this, NoConnectionActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            changeActivityClear(NoConnectionActivity::class.java)
         }
     }
 
@@ -102,7 +100,7 @@ class ShopRegistrationActivity : AppCompatActivity() {
                                     ?.updateProfile(userProfileChangeRequest)
 
                                 storesRef.child(mAuth.currentUser?.uid.toString()).setValue(hashMap)
-                                startActivity(Intent(this, AdminHomeActivity::class.java))
+                                changeActivityClear(AdminHomeActivity::class.java)
                             } else {
                                 Toast.makeText(
                                     this,
@@ -116,9 +114,22 @@ class ShopRegistrationActivity : AppCompatActivity() {
         }
     }
 
+    private fun changeActivityClear(to: Class<*>) {
+        val intent = Intent(this, to)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+    }
+
     private fun moveToLogin() {
         shop_already_have_an_account.setOnClickListener {
             startActivity(Intent(this, ShopLoginActivity::class.java))
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 }

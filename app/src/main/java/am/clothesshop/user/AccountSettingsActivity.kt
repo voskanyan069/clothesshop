@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -40,11 +41,24 @@ class AccountSettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_account_settings)
 
         checkConnection()
+        toolbarInit()
         pickImage()
         accountActionDialog()
         setProfile()
         saveProfile()
-        onBack()
+    }
+
+    private fun toolbarInit() {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.title = mAuth.currentUser?.displayName.toString()
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 
     private fun pickImage() {
@@ -111,10 +125,9 @@ class AccountSettingsActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                mAuth.signOut()
-                moveToLogin()
-
                 dialog.dismiss()
+                mAuth.signOut()
+                changeActivityClear(LoginActivity::class.java)
             }
             dialogView.delete_account_action_dialog.setOnClickListener {
                 checkConnection()
@@ -130,7 +143,7 @@ class AccountSettingsActivity : AppCompatActivity() {
                 mAuth.currentUser?.delete()
 
                 dialog.dismiss()
-                moveToLogin()
+                changeActivityClear(LoginActivity::class.java)
             }
         }
     }
@@ -192,27 +205,22 @@ class AccountSettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun onBack() {
-        account_settings_back_button.setOnClickListener {
-            finish()
-        }
-    }
-
     override fun finish() {
-        startActivity(Intent(this, DrawerActivity::class.java))
+        super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     private fun checkConnection() {
         if (!CheckConnection().isNetworkAvailable(this) &&
             !CheckConnection().isInternetAvailable()) {
-            val intent = Intent(this, NoConnectionActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            changeActivityClear(NoConnectionActivity::class.java)
         }
     }
 
-    private fun moveToLogin() {
-        startActivity(Intent(this, LoginActivity::class.java))
+    private fun changeActivityClear(to: Class<*>) {
+        val intent = Intent(this, to)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 }

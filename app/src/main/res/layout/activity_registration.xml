@@ -33,11 +33,11 @@
                 android:layout_marginLeft="50sp"
                 android:layout_marginRight="50sp"
                 android:padding="10sp"
-                android:background="@drawable/email_layout"
+                android:background="@drawable/input_primary_layout"
                 android:inputType="text"
                 android:hint="@string/display_name"
                 android:textStyle="bold"
-                android:textColor="@color/colorBlue"
+                android:textColor="@color/colorInputPrimary"
                 />
 
             <EditText
@@ -49,11 +49,11 @@
                 android:layout_marginLeft="50sp"
                 android:layout_marginRight="50sp"
                 android:padding="10sp"
-                android:background="@drawable/registration_password_layout"
+                android:background="@drawable/input_primary_layout"
                 android:inputType="textPassword"
                 android:hint="@string/password"
                 android:textStyle="bold"
-                android:textColor="@color/colorOrange"
+                android:textColor="@color/colorInputPrimary"
                 />
 
             <Button
@@ -65,11 +65,11 @@
                 android:layout_marginRight="70sp"
                 android:layout_below="@id/registration_password"
                 android:padding="10sp"
-                android:background="@drawable/button_layout"
+                android:background="@drawable/button_primary_layout"
                 android:text="@string/sign_in"
                 android:fontFamily="@font/fredoka_one"
                 android:textSize="25sp"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorTextPrimary"
                 />
 
             <TextView
@@ -83,7 +83,7 @@
                 android:textStyle="bold"
                 android:text="@string/already_have_an_account"
                 android:textSize="15sp"
-                android:textColor="@color/colorPink"
+                android:textColor="@color/colorTextSecondary"
                 />
 
         </RelativeLayout>

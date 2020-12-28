@@ -60,6 +60,7 @@
             android:hint="Message..."
             android:paddingHorizontal="10sp"
             android:textSize="18sp"
+            android:textColor="@color/colorInputPrimary"
             />
 
         <ImageView
@@ -71,7 +72,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="5sp"
-            android:src="@drawable/send_message_icon"
+            android:src="@drawable/ic_send"
+            app:tint="@color/colorInputPrimary"
             />
 
     </RelativeLayout>

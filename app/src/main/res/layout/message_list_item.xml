@@ -32,6 +32,8 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:text="Username"
+                android:textColor="@color/colorTextSecondary"
+                android:textStyle="bold"
                 />
 
             <LinearLayout
@@ -45,7 +47,7 @@
                     android:id="@+id/message_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Message Template"
+                    android:text="Message Text"
                     android:textSize="16sp"
                     android:textColor="@color/colorWhite"
                     android:paddingHorizontal="10sp"
@@ -57,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:text="22/10/2020 21:18"
                     android:textSize="12sp"
-                    android:textColor="#BBDEFB"
+                    android:textColor="@color/colorTextPrimary"
                     android:layout_gravity="end"
                     android:layout_marginRight="10sp"
                     android:layout_marginLeft="10sp"

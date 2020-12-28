@@ -21,16 +21,13 @@ class LoginActivity : AppCompatActivity() {
 
         checkConnection()
         login()
-        moveToShopLogin()
-        moveToRegister()
+        activityListener()
     }
 
     private fun checkConnection() {
         if (!CheckConnection().isNetworkAvailable(this) &&
             !CheckConnection().isInternetAvailable()) {
-            val intent = Intent(this, NoConnectionActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            changeActivityClear(NoConnectionActivity::class.java)
         }
     }
 
@@ -42,50 +39,67 @@ class LoginActivity : AppCompatActivity() {
             val email: String = "$displayName@clothesshop.am"
             val password: String = login_password.text.toString()
 
-            if (displayName.isEmpty()) {
-                Toast.makeText(
-                    this,
-                    "Please enter the account name",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else if (password.isEmpty()) {
-                Toast.makeText(
-                    this,
-                    "Please enter the account password",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
-                mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Toast.makeText(
-                                this,
-                                "Successfully logged in",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            startActivity(Intent(this, ProductsActivity::class.java))
-                        } else {
-                            Toast.makeText(
-                                this,
-                                "Error: ${it.exception.toString()}",
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
+            when {
+                displayName.isEmpty() -> {
+                    Toast.makeText(
+                        this,
+                        "Please enter the account name",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                password.isEmpty() -> {
+                    Toast.makeText(
+                        this,
+                        "Please enter the account password",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                else -> {
+                    mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                Toast.makeText(
+                                    this,
+                                    "Successfully logged in",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                changeActivityClear(DrawerActivity::class.java)
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    "Error: ${it.exception.toString()}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
-                    }
+                }
             }
         }
     }
 
-    private fun moveToShopLogin() {
+    private fun changeActivityClear(to: Class<*>) {
+        val intent = Intent(this, to)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+    }
+
+    private fun changeActivity(to: Class<*>) {
+        startActivity(Intent(this, to))
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+    }
+
+    private fun activityListener() {
         login_shop_account.setOnClickListener {
-            startActivity(Intent(this, ShopLoginActivity::class.java))
+            changeActivity(ShopLoginActivity::class.java)
+        }
+        need_new_account.setOnClickListener {
+            changeActivity(RegistrationActivity::class.java)
         }
     }
 
-    private fun moveToRegister() {
-        need_new_account.setOnClickListener {
-            startActivity(Intent(this, RegistrationActivity::class.java))
-        }
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 }

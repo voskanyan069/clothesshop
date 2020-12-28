@@ -28,19 +28,18 @@
         android:id="@+id/account_settings_menu"
         android:layout_width="40sp"
         android:layout_height="40sp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/account_settings_top_bar"
         android:layout_alignParentRight="true"
+        android:layout_margin="8sp"
         android:src="@drawable/ic_menu"
-        app:tint="@color/colorTextPrimary"
-        android:layout_margin="8sp" />
+        app:tint="@color/colorButtonPrimary" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/account_settings_profile_image"
         android:layout_width="200sp"
         android:layout_height="200sp"
         android:layout_below="@id/account_settings_top_bar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="30sp"
         app:civ_border_width="2sp"
         app:civ_border_color="@color/colorButtonPrimary"

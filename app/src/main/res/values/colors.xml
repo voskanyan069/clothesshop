@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#2f3740</color>
     <color name="colorAccent">#636A94</color>
 
-    <color name="colorTextPrimary">#E8EAF6</color>
-    <color name="colorTextSecondary">#E8EAF6</color>
+    <color name="colorTextPrimary">#F2F3F6</color>
+    <color name="colorTextSecondary">#746F6F</color>
     <color name="colorButtonPrimary">#636A94</color>
     <color name="colorButtonSecondary">#636A94</color>
     <color name="colorInputPrimary">#636A94</color>

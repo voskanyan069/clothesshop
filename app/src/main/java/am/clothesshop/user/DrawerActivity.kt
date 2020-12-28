@@ -1,6 +1,7 @@
 package am.clothesshop.user
 
 import am.clothesshop.R
+import am.clothesshop.admin.AdminHomeActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -16,6 +17,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -33,6 +38,8 @@ class DrawerActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drawer)
+
+        checkIsAdmin()
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -58,6 +65,25 @@ class DrawerActivity : AppCompatActivity(), View.OnClickListener {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    private fun checkIsAdmin() {
+        val adminListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (
+                    !snapshot.child("Users").child(mAuth.currentUser?.uid.toString()).exists() &&
+                    snapshot.child("Stores").child(mAuth.currentUser?.uid.toString()).exists()
+                ) {
+                    val intent = Intent(this@DrawerActivity, AdminHomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        }
+        FirebaseDatabase.getInstance().reference.addValueEventListener(adminListener)
     }
 
     private fun init() {
@@ -96,6 +122,7 @@ class DrawerActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.drawer, menu)
+        menu.add("Add contact")
         return true
     }
 
